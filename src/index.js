@@ -27,15 +27,51 @@ async function FetchWeather(cord){
     return {location, weatherData};
 }
 
-// FetchWeather("london");
+const mainContainer = document.querySelector('.mainContainer');
+
 
 async function AppendData(input){
+    mainContainer.innerHTML = '';
+
     let data = await FetchWeather(input);
     // let location = data.location;
     console.log(data.location)
     console.log(data.weatherData)
+
+    const titleContainer = document.createElement('div');
+    titleContainer.classList.add('titleContainer');
+    const contentContainer = document.createElement('div');
+    contentContainer.classList.add('contentContainer');
+
+    const cityName = document.createElement('h1');
+    cityName.style.margin = '0px';
+    cityName.style.color = 'red';
+    cityName.textContent = data.location.name;
+
+    const country = document.createElement('h2');
+    country.style.fontSize = '14px';
+    country.style.margin = '0px';
+    country.textContent = data.location.country;
+
+    const location = document.createElement('div');
+    location.style.margin = '10px 0px 10px 0px';
+    location.textContent = `Location: Latitude: ${data.location.lat} Longitude: ${data.location.lon}`
+
+    mainContainer.append(titleContainer, contentContainer);
+
+    titleContainer.append(cityName, country, location);
+    contentContainer.append();
 }
 
-AppendData("london");
+const submit = document.getElementById("submit");
 
-// console.log(london);
+submit.addEventListener('click', (e)=>{
+    e.preventDefault();
+    const search = document.getElementById('search');
+    const output = search.value;
+
+    console.log(output);
+    AppendData(output);
+})
+
+
